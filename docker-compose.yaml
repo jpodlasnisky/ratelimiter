@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis:6379
+    networks:
+      - app_net
+
+  redis:
+    image: "redis:6.2.5"
+    ports:
+      - "6379:6379"
+    networks:
+      - app_net
+
+  fortio:
+    image: fortio/fortio
+    depends_on:
+      - app
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    name: app_net
+    driver: bridge
