@@ -14,7 +14,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /app/main .
 FROM scratch
 
 COPY --from=builder /app/main /main
-COPY --from=builder /app/.env /.env
+COPY --from=builder /app/config.env /config.env
 
 EXPOSE 8080
 
